@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,14 +16,15 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.pshakhlovich.javamentoringadv.repository")
-public class DataSourceConfig {
+@Profile("QA")
+public class DataSourceConfigQA {
 
     @Bean
     @ConditionalOnMissingBean
     public DataSource dataSource() {
         var dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.h2.Driver");
-        dataSourceBuilder.url("jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE");
+        dataSourceBuilder.url("jdbc:h2:file:~/java-mentoring-adv-db");
         dataSourceBuilder.username("SA");
         dataSourceBuilder.password("");
         return dataSourceBuilder.build();
@@ -47,7 +49,7 @@ public class DataSourceConfig {
 
     Properties additionalProperties() {
         var properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return properties;
     }

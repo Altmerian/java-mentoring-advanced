@@ -1,10 +1,11 @@
 package com.pshakhlovich.javamentoringadv.repository;
 
-import com.pshakhlovich.javamentoringadv.config.DataSourceConfig;
+import com.pshakhlovich.javamentoringadv.config.DataSourceConfigDev;
 import com.pshakhlovich.javamentoringadv.entity.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -14,7 +15,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = DataSourceConfig.class)
+@ContextConfiguration(classes = DataSourceConfigDev.class)
+@ActiveProfiles("DEV")
 class UserInfoRepositoryTest {
 
     @Autowired
